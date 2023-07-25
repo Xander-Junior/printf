@@ -5,7 +5,8 @@
  * _printf - Custom implementation of printf function
  * @format: The format string
  *
- * Return: The number of characters printed (excluding the null byte used to end output to strings)
+ * Return: The number of characters printed
+ * (excluding the null byte used to end output to strings)
  */
 int _printf(const char *format, ...)
 {
@@ -13,7 +14,6 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
-
 	while (*format)
 	{
 		if (*format != '%')
@@ -30,16 +30,13 @@ int _printf(const char *format, ...)
 					putchar(va_arg(args, int));
 					count++;
 					break;
-
 				case 's':
 					count += fputs(va_arg(args, char *), stdout);
 					break;
-
 				case '%':
 					putchar('%');
 					count++;
 					break;
-
 				default:
 					putchar('%');
 					putchar(*format);
@@ -51,6 +48,5 @@ int _printf(const char *format, ...)
 	}
 
 	va_end(args);
-
-	return count;
+	return (count);
 }
