@@ -1,12 +1,21 @@
-#include <stdio.h>
-#include <stdarg.h>
 #include "main.h"
+
+/**
+ * _putchar - A function that prints a character to stdout
+ * @c: The character to print
+ *
+ * Return: The number of characters printed (always 1)
+ */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}
+
 /**
  * _printf - Custom implementation of printf function
  * @format: The format string
  *
- * Return: The number of characters printed
- * (excluding the null byte used to end output to strings)
+ * Return: The number of characters printed (excluding the null byte used to end output to strings)
  */
 int _printf(const char *format, ...)
 {
@@ -14,11 +23,12 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
+
 	while (*format)
 	{
 		if (*format != '%')
 		{
-			putchar(*format);
+			_putchar(*format);
 			count++;
 		}
 		else
@@ -27,19 +37,19 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					putchar(va_arg(args, int));
+					_putchar(va_arg(args, int));
 					count++;
 					break;
 				case 's':
-					count += fputs(va_arg(args, char *), stdout);
+					count += _print_str(va_arg(args, char *));
 					break;
 				case '%':
-					putchar('%');
+					_putchar('%');
 					count++;
 					break;
 				default:
-					putchar('%');
-					putchar(*format);
+					_putchar('%');
+					_putchar(*format);
 					count += 2;
 					break;
 			}
@@ -50,3 +60,21 @@ int _printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
+
+/**
+ * _print_str - Print a string to stdout
+ * @str: The string to print
+ *
+ * Return: The number of characters printed
+ */
+int _print_str(char *str)
+{
+	int len = 0;
+	while (str && str[len])
+	{
+		_putchar(str[len]);
+		len++;
+	}
+	return (len);
+}
+
