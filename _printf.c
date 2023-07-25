@@ -15,7 +15,8 @@ int _putchar(char c)
  * _printf - Custom implementation of printf function
  * @format: The format string
  *
- * Return: The number of characters printed (excluding the null byte used to end output to strings)
+ * Return: The number of characters printed
+ * (excluding the null byte used to end output to strings)
  */
 int _printf(const char *format, ...)
 {
@@ -70,6 +71,7 @@ int _printf(const char *format, ...)
 int _print_str(char *str)
 {
 	int len = 0;
+
 	while (str && str[len])
 	{
 		_putchar(str[len]);
