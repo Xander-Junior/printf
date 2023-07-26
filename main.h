@@ -6,6 +6,7 @@
 
 int _printf(const char *format, ...);
 int _print_str(char *str);
+int _putchar(char c);
 
 #endif /* MAIN_H */
 
