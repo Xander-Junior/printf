@@ -11,6 +11,7 @@ int _putchar(char c)
 	return (write(1, &c, 1));
 }
 
+
 /**
  * _printf - Custom implementation of printf function
  * @format: The format string
@@ -44,11 +45,11 @@ int _printf(const char *format, ...)
 				case 's':
 					count += _print_str(va_arg(args, char *));
 					break;
-				case '%':
-					_putchar('%');
-					count++;
+				case 'd':
+				case 'i':
+					count += _print_int(va_arg(args, int));
 					break;
-				default:
+				case '%':
 					_putchar('%');
 					_putchar(*format);
 					count += 2;
@@ -61,6 +62,8 @@ int _printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
+
+
 
 /**
  * _print_str - Print a string to stdout
@@ -80,3 +83,29 @@ int _print_str(char *str)
 	return (len);
 }
 
+
+/**
+ * _print_int - Print an integer to stdout
+ * @num: The integer to print
+ *
+ * Return: The number of characters printed
+ */
+int _print_int(int num)
+{
+	int count = 0;
+
+	if (num < 0)
+	{
+		_putchar('-');
+		count++;
+		num = -num;
+	}
+
+	if (num / 10)
+		count += _print_int(num / 10);
+
+	_putchar('0' + num % 10);
+	count++;
+
+	return (count);
+}
