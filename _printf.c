@@ -52,6 +52,20 @@ int _printf(const char *format, ...)
 				case '%':
 					_putchar('%');
 					_putchar(*format);
+					break;
+				case 'u':
+					count += _print_unsigned(va_arg(args, unsigned int));
+					break;
+				case 'o':
+					count += _print_octal(va_arg(args, unsigned int));
+					break;
+				case 'x':
+				case 'X':
+					count += _print_hex(va_arg(args, unsigned int), (*format == 'X'));
+					break;
+				default:
+					_putchar('%');
+					_putchar(*format);
 					count += 2;
 					break;
 			}
@@ -109,3 +123,92 @@ int _print_int(int num)
 
 	return (count);
 }
+
+int _print_unsigned(unsigned int num)
+{
+	int count = 0;
+
+	if (num / 10)
+		count += _print_unsigned(num / 10);
+
+	_putchar('0' + num % 10);
+	count++;
+
+
+	return (count);
+}
+
+
+/**
+ * _print_octal - Print an unsigned integer in octal format to stdout
+ * @num: The unsigned integer to print
+ *
+ * Return: The number of characters printed
+ */
+int _print_octal(unsigned int num)
+{
+	int count = 0;
+	char buffer[BUFF];
+	int len = 0;
+
+
+	if (num == 0)
+	{
+		_putchar('0');
+		return (1);
+	}
+
+	while (num != 0)
+	{
+		buffer[len] = (num % 8) + '0';
+		num /= 8;
+		len++;
+	}
+
+	while (len > 0)
+	{
+		len--;
+		_putchar(buffer[len]);
+		count++;
+	}
+
+	return (count);
+}
+
+/**
+ * _print_hex - Print an unsigned integer in hexadecimal format to stdout
+ * @num: The unsigned integer to print
+ * @uppercase: A flag indicating whether to use uppercase hex digits (1) or lowercase (0)
+ *
+ * Return: The number of characters printed
+ */
+int _print_hex(unsigned int num, int uppercase)
+{
+	int count = 0;
+	char buffer[BUFF];
+	int len = 0;
+	char *digits = uppercase ? "0123456789ABCDEF" : "0123456789abcdef";
+
+	if (num == 0)
+	{
+		_putchar('0');
+		return (1);
+	}
+
+	while (num != 0)
+	{
+		buffer[len] = digits[num % 16];
+		num /= 16;
+		len++;
+	}
+
+	while (len > 0)
+	{
+		len--;
+		_putchar(buffer[len]);
+		count++;
+	}
+
+	return (count);
+}
+
