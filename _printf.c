@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdio.h>
+#include <stdint.h>
 
 /**
  * _putchar - A function that prints a character to stdout
@@ -224,6 +225,8 @@ int _print_hex(unsigned int num, int uppercase)
 	return (count);
 }
 
+
+
 /**
  * _print_address - Print a memory address in hexadecimal format to stdout
  * @ptr: The pointer to print the address of
@@ -232,16 +235,33 @@ int _print_hex(unsigned int num, int uppercase)
  */
 int _print_address(void *ptr)
 {
+	int len = 0;
 	int count = 0;
+	uintptr_t address = (uintptr_t)ptr;
+	char buffer[BUFF];
 
 	if (ptr == NULL)
-	{
 		return (_print_str("(nil)"));
-	}
 
 	count += _putchar('0');
 	count += _putchar('x');
-	count += _print_hex((unsigned long)ptr, 0);
+
+	/* Convert the address to hexadecimal and store it in the buffer */
+	while (address != 0)
+	{
+		buffer[len] = "0123456789abcdef"[address % 16];
+		address /= 16;
+		len++;
+	}
+
+	/* Print the address in reverse order (hexadecimal representation) */
+	while (len > 0)
+	{
+		len--;
+		_putchar(buffer[len]);
+		count++;
+	}
 
 	return (count);
 }
+
