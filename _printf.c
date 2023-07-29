@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
  * _putchar - A function that prints a character to stdout
@@ -51,13 +52,16 @@ int _printf(const char *format, ...)
 					break;
 				case '%':
 					_putchar('%');
-					_putchar(*format);
+					count++;
 					break;
 				case 'u':
 					count += _print_unsigned(va_arg(args, unsigned int));
 					break;
 				case 'o':
 					count += _print_octal(va_arg(args, unsigned int));
+					break;
+				case 'p':
+					count += _print_address(va_arg(args, void *));
 					break;
 				case 'x':
 				case 'X':
@@ -124,6 +128,13 @@ int _print_int(int num)
 	return (count);
 }
 
+/**
+ * _print_unsigned - Print an unsigned integer to stdout
+ * @num: The unsigned integer to print
+ *
+ * Return: The number of characters printed
+ */
+
 int _print_unsigned(unsigned int num)
 {
 	int count = 0;
@@ -182,6 +193,7 @@ int _print_octal(unsigned int num)
  *
  * Return: The number of characters printed
  */
+
 int _print_hex(unsigned int num, int uppercase)
 {
 	int count = 0;
@@ -212,3 +224,24 @@ int _print_hex(unsigned int num, int uppercase)
 	return (count);
 }
 
+/**
+ * _print_address - Print a memory address in hexadecimal format to stdout
+ * @ptr: The pointer to print the address of
+ *
+ * Return: The number of characters printed
+ */
+int _print_address(void *ptr)
+{
+	int count = 0;
+
+	if (ptr == NULL)
+	{
+		return (_print_str("(nil)"));
+	}
+
+	count += _putchar('0');
+	count += _putchar('x');
+	count += _print_hex((unsigned long)ptr, 0);
+
+	return (count);
+}
